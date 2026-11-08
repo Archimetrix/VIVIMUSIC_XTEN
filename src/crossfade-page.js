@@ -1,4 +1,4 @@
-/* VIVIMUSIC WEB — crossfade-page.js  (runs in the page's MAIN world)
+/* VIVIMUSIC XTEN — crossfade-page.js  (runs in the page's MAIN world)
  *
  * Crossfading needs the *end* of the current song to keep playing after the
  * <video> element has already moved on to the next one. The only place that

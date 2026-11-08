@@ -1,5 +1,5 @@
 /**
- * VIVIMUSIC WEB — stargate.js
+ * VIVIMUSIC XTEN — stargate.js
  *
  * Background-side logic for the "must star the repo" gate.
  * Uses GitHub's OAuth Device Flow so the user proves who they actually are
@@ -19,7 +19,7 @@
 
 const GITHUB_CLIENT_ID = 'Iv23liMZvwMUxc2HJIso';
 const STAR_REPO_OWNER = 'Archimetrix';
-const STAR_REPO_NAME = 'VIVIMUSIC_WEB';
+const STAR_REPO_NAME = 'VIVIMUSIC_XTEN';
 // Fresh installs get this long to use the extension before the star screen
 // appears. Updates (manual or automatic from the add-on store) never see it.
 const STAR_GRACE_MS = 10 * 60 * 1000;

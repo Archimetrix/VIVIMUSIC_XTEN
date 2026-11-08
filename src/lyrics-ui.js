@@ -1,5 +1,5 @@
 /**
- * VIVIMUSIC WEB — lyrics-ui.js
+ * VIVIMUSIC XTEN — lyrics-ui.js
  */
 
 (() => {
@@ -86,7 +86,7 @@
       applyLyricsStyleClasses();
     } catch (e) {
       loadedLyricsFonts.delete(key);
-      console.debug('[Vivimusic] lyrics font failed to load:', key, e);
+      console.debug('[ViviMusic Xten] lyrics font failed to load:', key, e);
     }
   }
 

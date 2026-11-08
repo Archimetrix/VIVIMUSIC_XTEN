@@ -1,4 +1,4 @@
-/* VIVIMUSIC WEB — crossfade.js  (content script, isolated world)
+/* VIVIMUSIC XTEN — crossfade.js  (content script, isolated world)
  *
  * Overlaps the end of one song with the start of the next.
  *

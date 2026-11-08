@@ -1,5 +1,5 @@
 /**
- * VIVIMUSIC WEB — gate.js
+ * VIVIMUSIC XTEN — gate.js
  *
  * Runs at document_start, before every other content script. Shows a
  * full-page overlay requiring the user to verify (via GitHub OAuth device
@@ -17,7 +17,7 @@
 (() => {
   'use strict';
 
-  const REPO_URL = 'https://github.com/Archimetrix/VIVIMUSIC_WEB';
+  const REPO_URL = 'https://github.com/Archimetrix/VIVIMUSIC_XTEN';
   const OVERLAY_ID = 'vivi-star-gate';
   const SNOOZE_KEY = 'vivi_gate_snoozed';
 
@@ -78,7 +78,7 @@
   }
 
   function brandHtml() {
-    return `<div class="gate-brand"><img src="${chrome.runtime.getURL('icons/icon128.png')}" alt=""><div><div class="gate-brand-name">Vivimusic Web</div><div class="gate-brand-tagline">A more personal way to enjoy your music</div></div></div>`;
+    return `<div class="gate-brand"><img src="${chrome.runtime.getURL('icons/icon128.png')}" alt=""><div><div class="gate-brand-name">ViviMusic Xten</div><div class="gate-brand-tagline">A more personal way to enjoy your music</div></div></div>`;
   }
 
   function pageHtml(content, footer = 'Your music stays yours. GitHub securely handles account verification.') {
@@ -92,8 +92,8 @@
   function renderLocked() {
     const el = render(pageHtml(`
       <div class="gate-kicker">One-time community check</div>
-      <h1 class="gate-title">Unlock Vivimusic Web for Lifetime</h1>
-      <p class="gate-description">Vivimusic Web is a 100% free extension. Please star the project on GitHub to support it, then verify your account to unlock the extension for lifetime.</p>
+      <h1 class="gate-title">Unlock ViviMusic Xten for Lifetime</h1>
+      <p class="gate-description">ViviMusic Xten is a 100% free extension. Please star the project on GitHub to support it, then verify your account to unlock the extension for lifetime.</p>
       <div class="gate-steps">
         <div class="gate-step"><span class="gate-step-number">01</span><span class="gate-step-label">Visit the project</span></div>
         <div class="gate-step"><span class="gate-step-number">02</span><span class="gate-step-label">Star it on GitHub</span></div>
@@ -139,7 +139,7 @@
     const el = render(pageHtml(`
       <div class="gate-kicker">Verification complete</div>
       <h1 class="gate-title">One small step left</h1>
-      <p class="gate-description">This GitHub account is verified, but it hasn’t starred the Vivimusic Web project yet. Star the repo, then come back and retry.</p>
+      <p class="gate-description">This GitHub account is verified, but it hasn’t starred the ViviMusic Xten project yet. Star the repo, then come back and retry.</p>
       <div class="gate-actions" style="margin-top:18px;">${btnHtml('vivi-gate-retry', 'I’ve starred it — check again')}<a class="gate-button secondary" href="${REPO_URL}" target="_blank" rel="noopener noreferrer">Open GitHub repo ↗</a></div>
     `));
     el.querySelector('#vivi-gate-retry').addEventListener('click', recheck);

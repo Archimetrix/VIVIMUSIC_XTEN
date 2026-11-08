@@ -1,5 +1,5 @@
 /**
- * VIVIMUSIC WEB — background.js
+ * VIVIMUSIC XTEN — background.js
  */
 
 'use strict';
@@ -46,7 +46,7 @@ async function ensureAmpHeaderSpoofRule() {
   }
 }
 
-const REPO = 'Archimetrix/VIVIMUSIC_WEB';
+const REPO = 'Archimetrix/VIVIMUSIC_XTEN';
 const RELEASES_API = `https://api.github.com/repos/${REPO}/releases/latest`;
 const RELEASES_PAGE = `https://github.com/${REPO}/releases/latest`;
 const ALARM_NAME = 'vivi-update-check';

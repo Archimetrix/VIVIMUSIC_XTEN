@@ -1,4 +1,4 @@
-/* VIVIMUSIC WEB — popup.js */
+/* VIVIMUSIC XTEN — popup.js */
 (() => {
 
   const enableToggle = document.getElementById('enableToggle');
@@ -505,6 +505,20 @@
     relay({ pillPlayerEnabled });
   });
 
+
+  // Layout compatibility toggle
+  {
+    const layoutCompatToggle = document.getElementById('layoutCompatToggle');
+    chrome.storage.local.get({ layoutCompatEnabled: false }, ({ layoutCompatEnabled }) => {
+      layoutCompatToggle.checked = layoutCompatEnabled === true;
+    });
+    layoutCompatToggle.addEventListener('change', () => {
+      const layoutCompatEnabled = layoutCompatToggle.checked;
+      chrome.storage.local.set({ layoutCompatEnabled });
+      relay({ layoutCompatEnabled });
+    });
+  }
+
   function setDiscStyleControlLock(enabled) {
     ['enableToggle', 'spotifyCanvasEnabled'].forEach((id) => {
       const control = document.getElementById(id);
@@ -977,7 +991,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `vivimusic-artwork-cache-${stamp}.json`;
+        a.download = `vivimusic-xten-artwork-cache-${stamp}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -1042,9 +1056,22 @@
     }
     if (result.updateAvailable) {
       updateStatus.classList.add('available');
+      const ver = String(result.latestVersion || '');
+      let h = 2166136261; for (const c of ver) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }
+      h ^= h >>> 15; h = Math.imul(h, 2246822519) >>> 0; h = (h ^ (h >>> 13)) >>> 0;
+      const theme = h % 6;                 // 6 animation styles
+      const hue = (h >>> 4) % 360;         // unique colour shift per release
+      const speed = (0.8 + ((h >>> 12) % 9) / 10).toFixed(2); // 0.8x–1.6x
       updateStatus.innerHTML =
-        `v${esc(result.latestVersion)} is available — ` +
-        `<a href="${esc(result.releaseUrl)}" target="_blank" rel="noopener">Download</a>`;
+        `<div class="update-hero uh-t${theme}" style="--uh-hue:${hue}deg;--uh-speed:${speed}">` +
+        `<span class="uh-bg"><i></i><i></i><i></i></span><span class="uh-glass"></span>` +
+        `<img class="uh-logo" src="../icons/icon128.png" alt="">` +
+        `<span class="uh-eyebrow">VIVIMUSIC XTEN</span>` +
+        `<span class="uh-badge">New update available</span>` +
+        `<span class="uh-version">v${esc(ver)}</span>` +
+        `<span class="uh-sub">You're on v${esc(chrome.runtime.getManifest().version)} · Download and Load Unpack again for best experience</span>` +
+        `<a class="uh-btn" href="${esc(result.releaseUrl)}" target="_blank" rel="noopener">Download update <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12M6.5 11.5 12 17l5.5-5.5M5 20h14"/></svg></a>` +
+        `<span class="uh-note">No need to remove the already installed one — just Load unpacked again and it will update on top of the existing install.</span></div>`;
     } else {
       updateStatus.classList.add('uptodate');
       updateStatus.textContent = "You're on the latest version.";

@@ -709,17 +709,30 @@ ytmusic-player #song-media-window.vivi-canvas-main-active .vivi-canvas-native-hi
    a descendant, however large, can ever escape it to beat a
    position:fixed sibling of <body> like the Canvas. So the header itself
    is included here too. */
-tp-yt-paper-dialog,
-tp-yt-iron-dropdown,
-ytmusic-popup-container,
-ytmusic-multi-select-menu,
-ytmusic-add-to-playlist-renderer,
-ytmusic-app-layer,
 ytmusic-nav-bar,
 ytmusic-search-box[opened],
 ytmusic-search-box[opened] .search-container,
 ytmusic-search-box #suggestion-list {
   z-index: 2147483000 !important;
+}
+
+/* Popups (3-dot menu, "Save to playlist", "Share", ...) must sit strictly
+   ABOVE everything else we elevate (nav bar, player bar, app layer). When they
+   shared the same z-index, DOM order decided and a later full-size layer
+   painted over / intercepted clicks on the dialog opened from the menu.
+   Dialogs are one step above dropdowns so a dialog opened from a menu is
+   always the top-most thing and receives hover/clicks. */
+ytmusic-popup-container {
+  z-index: 2147483646 !important;
+}
+tp-yt-iron-dropdown,
+ytmusic-multi-select-menu {
+  z-index: 2147483646 !important;
+}
+tp-yt-paper-dialog,
+ytmusic-add-to-playlist-renderer {
+  z-index: 2147483647 !important;
+  pointer-events: auto !important;
 }
 
 /* Frosted-glass backing for the search-suggestions dropdown. Its native

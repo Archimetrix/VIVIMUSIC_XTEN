@@ -1,5 +1,5 @@
 /**
- * VIVIMUSIC WEB — loader.js
+ * VIVIMUSIC XTEN — loader.js
  *
  * Runs at document_start, before YT Music has painted anything, so we can
  * cover the page with our own splash before the stock UI has a chance to
@@ -17,107 +17,6 @@
   try {
     logoUrl = chrome.runtime.getURL('icons/custom-logo-icon.png');
   } catch { /* no-op */ }
-
-  // ── Favicon override, as early as possible ──
-  // This runs at document_start, before the parser has even produced <head>
-  // in most cases, so there's no favicon to remove yet — we just need to make
-  // sure OUR icon link wins the moment <head> (and YT Music's own icon link
-  // inside it) shows up. We watch for both events and strip anything that
-  // isn't ours the instant it appears, which is as close to zero-flicker as
-  // a content script can get (a native browser feature, not something we
-  // can hook synchronously the way a MutationObserver requires a tick).
-  function installFaviconOverride() {
-    if (!logoUrl) return;
-
-    function ourLink() {
-      const link = document.createElement('link');
-      link.rel = 'icon';
-      link.type = 'image/png';
-      link.href = logoUrl;
-      return link;
-    }
-
-    function stripForeignIcons(root) {
-      root.querySelectorAll('link[rel~="icon"]').forEach((el) => {
-        if (el.href !== logoUrl && !el.href.endsWith(logoUrl)) el.remove();
-      });
-    }
-
-    if (document.head) {
-      stripForeignIcons(document.head);
-      document.head.insertBefore(ourLink(), document.head.firstChild);
-    }
-
-    // Catch <head> arriving later, and catch YT Music inserting its own
-    // icon link(s) at any point afterward (it does this again on some
-    // client-side navigations), removing them the instant they land.
-    const observer = new MutationObserver((mutations) => {
-      if (!document.head) return;
-      let sawForeignIcon = false;
-      for (const m of mutations) {
-        for (const node of m.addedNodes) {
-          if (node.nodeType !== 1) continue;
-          if (node.matches?.('link[rel~="icon"]') && node.href !== logoUrl && !node.href?.endsWith?.(logoUrl)) {
-            sawForeignIcon = true;
-          } else if (node.querySelector?.('link[rel~="icon"]')) {
-            sawForeignIcon = true;
-          }
-        }
-      }
-      if (sawForeignIcon) {
-        stripForeignIcons(document.head);
-        if (!document.head.querySelector(`link[rel~="icon"][href="${logoUrl}"]`)) {
-          document.head.insertBefore(ourLink(), document.head.firstChild);
-        }
-      }
-    });
-    observer.observe(document.documentElement, { childList: true, subtree: true });
-  }
-  installFaviconOverride();
-
-  // ── Title override, as early as possible ──
-  // YT Music may replace the entire <title> node (not merely its text), so
-  // watching only the current title element is not sufficient. Keep watching
-  // <head> until content.js takes over the real track title.
-  (function installTitleOverride() {
-    const PLACEHOLDER = 'VIVIMUSIC';
-
-    let writes = [];
-    function enforce() {
-      if (window.__viviTitleTakeover) return;
-      if (document.title === PLACEHOLDER) return;
-      const now = performance.now();               // never fight the page in a tight loop
-      writes = writes.filter((t) => now - t < 1000);
-      if (writes.length >= 20) return;
-      writes.push(now);
-      document.title = PLACEHOLDER;
-    }
-
-    enforce();
-
-    const headObserver = new MutationObserver(() => enforce());
-    const watch = () => {
-      if (document.head) {
-        headObserver.observe(document.head, {
-          childList: true,
-          subtree: true,
-          characterData: true,
-        });
-        enforce();
-      }
-    };
-
-    if (document.head) watch();
-    else {
-      const rootObserver = new MutationObserver(() => {
-        if (document.head) {
-          rootObserver.disconnect();
-          watch();
-        }
-      });
-      rootObserver.observe(document.documentElement, { childList: true, subtree: true });
-    }
-  })();
 
   const shownAt = Date.now();
 
@@ -164,11 +63,11 @@
 
     const img = document.createElement('img');
     img.src = logoUrl;
-    img.alt = 'Vivimusic';
+    img.alt = 'ViviMusic Xten';
 
     const text = document.createElement('div');
     text.className = 'vivi-loading-text';
-    text.textContent = 'Loading Vivimusic…';
+    text.textContent = 'Loading ViviMusic Xten…';
 
     overlay.appendChild(img);
     overlay.appendChild(text);
