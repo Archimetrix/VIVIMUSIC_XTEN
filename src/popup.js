@@ -22,6 +22,7 @@
   const setDiscShineVisible = (on) => { if (discShineGroup) discShineGroup.style.display = on ? '' : 'none'; };
   const playerTabIconsToggle = document.getElementById('playerTabIconsToggle');
   const pillPlayerToggle = document.getElementById('pillPlayerToggle');
+  const localizationToggle = document.getElementById('localizationToggle');
   const lyricsToggle = document.getElementById('lyricsToggle');
   const autoSwitchToggle = document.getElementById('autoSwitchToggle');
   const videoLyricsToggle = document.getElementById('videoLyricsToggle');
@@ -503,6 +504,16 @@
     const pillPlayerEnabled = pillPlayerToggle.checked;
     chrome.storage.local.set({ pillPlayerEnabled });
     relay({ pillPlayerEnabled });
+  });
+
+  // Language localization (default ON). Content scripts pick this up through
+  // chrome.storage.onChanged in tab-locale.js, so no relay message is needed.
+  chrome.storage.local.get({ localizationEnabled: true }, ({ localizationEnabled }) => {
+    localizationToggle.checked = localizationEnabled !== false;
+  });
+
+  localizationToggle.addEventListener('change', () => {
+    chrome.storage.local.set({ localizationEnabled: localizationToggle.checked });
   });
 
 

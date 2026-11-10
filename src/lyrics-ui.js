@@ -153,11 +153,17 @@
   });
 
   
+  // Resolves a tab by kind ('lyrics', 'comments', ...). Language handling
+  // lives in tab-locale.js (setting: Appearance → Language localization).
   function findTabByLabel(label) {
     const tabs = document.querySelectorAll('ytmusic-player-page tp-yt-paper-tab, ytmusic-player-page yt-tab-shape');
+    const T = window.__viviTabs;
     for (const tab of tabs) {
-      const text = (tab.textContent || '').trim().toLowerCase();
-      if (text === label) return tab;
+      if (T) {
+        if (T.kindOf(tab, Array.from(tabs)) === label) return tab;
+      } else if ((tab.textContent || '').trim().toLowerCase() === label) {
+        return tab;
+      }
     }
     return null;
   }
@@ -1593,12 +1599,14 @@
     enableLyricsTabIfDisabled();
     const host = findTabContentHost();
     if (host) {
-      const label = (tab.textContent || '').trim().toLowerCase();
+      const label = window.__viviTabs
+        ? (window.__viviTabs.kindOf(tab) || '')
+        : (tab.textContent || '').trim().toLowerCase();
       // Capture phase: YTM hasn't switched yet, so this is the tab we're leaving.
       const leavingLyrics = isLyricsTabActive();
       if (leavingLyrics && (label === 'comments' || label === 'related')) {
         markStaleNative(host);
-      } else if (label === 'lyrics' || label === 'up next') {
+      } else if (label === 'lyrics' || label === 'up next' || label === 'next') {
         clearStaleNative(host);
       }
       reconcileStale();
@@ -1612,6 +1620,11 @@
   }, true);
 
   watchTabHost();
+  document.addEventListener('vivi-localization-changed', () => {
+    enableLyricsTabIfDisabled();
+    scheduleSync();
+    if (currentTrack && settings.autoSwitchLyrics) clickLyricsTabWithRetry();
+  });
   document.addEventListener('play', requestLyricsTick, true);
   document.addEventListener('playing', requestLyricsTick, true);
   document.addEventListener('timeupdate', requestLyricsTick, true);

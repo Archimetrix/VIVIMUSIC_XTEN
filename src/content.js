@@ -2153,6 +2153,7 @@
   };
 
   function playerTabIconKind(tab) {
+    if (window.__viviTabs) return window.__viviTabs.kindOf(tab);
     const label = `${tab.getAttribute('aria-label') || ''} ${tab.querySelector('.tab-content')?.textContent || ''}`
       .toLowerCase().replace(/\s+/g, ' ').trim();
     if (label.includes('up next') || label.includes('queue')) return 'next';
@@ -2213,6 +2214,14 @@
       tab.dataset.viviPlayerTabIcon = kind;
     });
   }
+
+  // Language localization toggled (or the tab strip is otherwise re-read):
+  // drop existing decorations and re-evaluate every tab with the new rules.
+  document.addEventListener('vivi-localization-changed', () => {
+    document.querySelectorAll('.vivi-player-tab-icon').forEach((icon) => icon.remove());
+    document.querySelectorAll('[data-vivi-player-tab-icon]').forEach((tab) => delete tab.dataset.viviPlayerTabIcon);
+    if (playerTabIconsEnabled) decoratePlayerTabIcons();
+  });
 
   function applyPillPlayer(enabled) {
     document.documentElement.classList.toggle('vivi-pill-player', enabled !== false);

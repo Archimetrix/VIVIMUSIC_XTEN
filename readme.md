@@ -7,7 +7,7 @@
 **Apple Music–style Canvas artwork, Spotify Canvas, synced lyrics with romanization, a built-in equalizer, crossfade between songs, Last.fm scrobbling, Spotify → YouTube Music playlist transfer tool for YouTube Music and many more.**
 
 [![Manifest](https://img.shields.io/badge/Manifest-V3-ff6b6b?style=flat-square)](#)
-[![Version](https://img.shields.io/badge/Version-11.0-4ecdc4?style=flat-square)](#)
+[![Version](https://img.shields.io/badge/Version-11.1-4ecdc4?style=flat-square)](#)
 [![Browsers](https://img.shields.io/badge/Chrome%20%7CFirefox%20%7C%20All%20Firefox%20Based%20Browsers%20%7cAll%20Chromium%20Browsers-supported-6c5ce7?style=flat-square)](#)
 [![Copyright](https://img.shields.io/badge/Copyright-%C2%A9%202026%20Archimetrix.%20All%20rights%20reserved-f39c12?style=flat-square)](LICENSE)
 </div>
@@ -204,6 +204,8 @@ All settings live in the extension popup (click the ViviMusic Xten icon in your 
 | **Theme** | Toggles the full visual reskin independently of Canvas/Lyrics. |
 | **Vinyl disc artwork** | Shows the player artwork as a rotating record with a tonearm. Turns off Apple Music artwork and Spotify Canvas while on. |
 | **Player tabs: icons only** | Replaces the Up next, Lyrics, Comments and Related labels with icons. |
+| **Floating pill player bar** | Turns the bottom player bar into a floating liquid-glass pill. |
+| **Language localization** | On by default. Lets lyrics and the player tabs work when YouTube Music is not in English. |
 | **Spotify Canvas** | Enables Spotify Canvas videos for YT Music tracks; connect via login or `sp_dc` cookie. |
 | **When both are available, prefer** | Chooses Apple Music artwork or Spotify Canvas when a track has both. |
 | **Playlist transfer** | Opens the client-side Spotify → YouTube Music transfer tool (Beta). Select playlists and/or Liked Songs and transfer them into private YouTube Music playlists. |
