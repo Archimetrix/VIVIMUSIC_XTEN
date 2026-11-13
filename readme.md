@@ -7,7 +7,7 @@
 **Apple Music–style Canvas artwork, Spotify Canvas, synced lyrics with romanization, a built-in equalizer, crossfade between songs, Discord Rpc, Last.fm scrobbling, Spotify → YouTube Music playlist transfer tool for YouTube Music and many more.**
 
 [![Manifest](https://img.shields.io/badge/Manifest-V3-ff6b6b?style=flat-square)](#)
-[![Version](https://img.shields.io/badge/Version-11.2.0-4ecdc4?style=flat-square)](#)
+[![Version](https://img.shields.io/badge/Version-11.3.0-4ecdc4?style=flat-square)](#)
 [![Browsers](https://img.shields.io/badge/Chrome%20%7CFirefox%20%7C%20All%20Firefox%20Based%20Browsers%20%7cAll%20Chromium%20Browsers-supported-6c5ce7?style=flat-square)](#)
 [![License](https://img.shields.io/badge/License-AGPL_v3-blue?style=flat-square)](LICENSE)
 </div>
