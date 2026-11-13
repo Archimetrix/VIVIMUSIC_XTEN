@@ -4,7 +4,7 @@
 
 # ViviMusic Xten
 
-**Apple Music–style Canvas artwork, Spotify Canvas, synced lyrics with romanization, a built-in equalizer, crossfade between songs, Last.fm scrobbling, Spotify → YouTube Music playlist transfer tool for YouTube Music and many more.**
+**Apple Music–style Canvas artwork, Spotify Canvas, synced lyrics with romanization, a built-in equalizer, crossfade between songs, Discord Rpc, Last.fm scrobbling, Spotify → YouTube Music playlist transfer tool for YouTube Music and many more.**
 
 [![Manifest](https://img.shields.io/badge/Manifest-V3-ff6b6b?style=flat-square)](#)
 [![Version](https://img.shields.io/badge/Version-11.2.0-4ecdc4?style=flat-square)](#)
@@ -14,7 +14,7 @@
 
 ---
 
-ViviMusic Xten is a browser extension that reskins **[music.youtube.com](https://music.youtube.com)** with animated Canvas-style backgrounds (like Apple Music/Spotify Canvas), word-synced lyrics, an audio equalizer with crossfade between songs, SponsorBlock skipping, Last.fm scrobbling, and a dark, glassy theme — without needing a separate desktop app .
+ViviMusic Xten is a browser extension that reskins **[music.youtube.com](https://music.youtube.com)** with animated Canvas-style backgrounds (like Apple Music/Spotify Canvas), word-synced lyrics, an audio equalizer with crossfade between songs, SponsorBlock skipping, Discord Rpc, Last.fm scrobbling, and a dark, glassy theme — without needing a separate desktop app .
 
 This extension is **not published on the Chrome Web Store**. It's distributed as source from this repository and loaded manually as an "unpacked" extension. Follow the installation guide below — it takes about a minute.
 
