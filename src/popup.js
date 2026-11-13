@@ -22,11 +22,14 @@
   const setDiscShineVisible = (on) => { if (discShineGroup) discShineGroup.style.display = on ? '' : 'none'; };
   const playerTabIconsToggle = document.getElementById('playerTabIconsToggle');
   const pillPlayerToggle = document.getElementById('pillPlayerToggle');
+  const fullscreenModeToggle = document.getElementById('fullscreenModeToggle');
+  const fullscreenAutoHideToggle = document.getElementById('fullscreenAutoHideToggle');
   const localizationToggle = document.getElementById('localizationToggle');
   const lyricsToggle = document.getElementById('lyricsToggle');
   const autoSwitchToggle = document.getElementById('autoSwitchToggle');
   const videoLyricsToggle = document.getElementById('videoLyricsToggle');
   const dancerNotFoundToggle = document.getElementById('dancerNotFoundToggle');
+  const dancerForVideosToggle = document.getElementById('dancerForVideosToggle');
   const lyricsAlignSelect = document.getElementById('lyricsAlignSelect');
   const lyricsRomanSelect = document.getElementById('lyricsRomanSelect');
   const ROMAN_LANGS = [
@@ -175,8 +178,8 @@
   };
 
   chrome.storage.local.get(
-    { enabled: true, themeEnabled: true, imageOnlyMode: false, kawarpEnabled: false, eqEnabled: false, crossfadeEnabled: false, crossfadeSeconds: 6, lyricsEnabled: true, autoSwitchLyrics: true, sponsorBlockEnabled: true, lyricsShowForVideos: false, dancerOnNotFound: true, lyricsAlign: 'center', lyricsAnimationStyle: 'apple', lyricsFont: 'default', lyricsRoman: 'off', lyricsRomanJa: true, lyricsRomanLangs: null, lyricsProviders: DEFAULT_PROVIDERS, ...KAWARP_DEFAULTS },
-    ({ enabled, themeEnabled, imageOnlyMode, kawarpEnabled, eqEnabled, crossfadeEnabled, crossfadeSeconds, lyricsEnabled, autoSwitchLyrics, sponsorBlockEnabled, lyricsShowForVideos, dancerOnNotFound, lyricsAlign, lyricsAnimationStyle, lyricsFont, lyricsRoman, lyricsRomanJa, lyricsRomanLangs, lyricsProviders,
+    { enabled: true, themeEnabled: true, imageOnlyMode: false, kawarpEnabled: false, eqEnabled: false, crossfadeEnabled: false, crossfadeSeconds: 6, lyricsEnabled: true, autoSwitchLyrics: true, sponsorBlockEnabled: true, lyricsShowForVideos: false, dancerOnNotFound: true, dancerForVideos: true, lyricsAlign: 'center', lyricsAnimationStyle: 'apple', lyricsFont: 'default', lyricsRoman: 'off', lyricsRomanJa: true, lyricsRomanLangs: null, lyricsProviders: DEFAULT_PROVIDERS, ...KAWARP_DEFAULTS },
+    ({ enabled, themeEnabled, imageOnlyMode, kawarpEnabled, eqEnabled, crossfadeEnabled, crossfadeSeconds, lyricsEnabled, autoSwitchLyrics, sponsorBlockEnabled, lyricsShowForVideos, dancerOnNotFound, dancerForVideos, lyricsAlign, lyricsAnimationStyle, lyricsFont, lyricsRoman, lyricsRomanJa, lyricsRomanLangs, lyricsProviders,
        kawarpPauseWhenInactive, kawarpOpacity, kawarpWarpIntensity, kawarpBlurPasses, kawarpSaturation, kawarpBrightness, kawarpDithering, kawarpAnimationSpeed, kawarpTransitionDuration }) => {
       enableToggle.checked = enabled;
       imageOnlyToggle.checked = imageOnlyMode;
@@ -189,6 +192,7 @@
       sponsorBlockToggle.checked = sponsorBlockEnabled;
       videoLyricsToggle.checked = lyricsShowForVideos;
       dancerNotFoundToggle.checked = dancerOnNotFound;
+      dancerForVideosToggle.checked = dancerForVideos !== false;
       lyricsAlignSelect.value = lyricsAlign;
       lyricsRomanSelect.value = lyricsRoman;
       if (lyricsRomanSelect.value !== lyricsRoman) lyricsRomanSelect.value = 'off';
@@ -506,6 +510,23 @@
     relay({ pillPlayerEnabled });
   });
 
+  // Full screen mode: always ON and locked (greyed out, cannot be turned off).
+  fullscreenModeToggle.checked = true;
+  fullscreenModeToggle.disabled = true;
+  fullscreenModeToggle.closest('.switch')?.classList.add('locked');
+  chrome.storage.local.set({ fullscreenModeEnabled: true });
+
+  // Auto-hide player bar in fullscreen (default ON).
+  chrome.storage.local.get({ fullscreenAutoHideBar: true }, ({ fullscreenAutoHideBar }) => {
+    fullscreenAutoHideToggle.checked = fullscreenAutoHideBar !== false;
+  });
+
+  fullscreenAutoHideToggle.addEventListener('change', () => {
+    const fullscreenAutoHideBar = fullscreenAutoHideToggle.checked;
+    chrome.storage.local.set({ fullscreenAutoHideBar });
+    relay({ fullscreenAutoHideBar });
+  });
+
   // Language localization (default ON). Content scripts pick this up through
   // chrome.storage.onChanged in tab-locale.js, so no relay message is needed.
   chrome.storage.local.get({ localizationEnabled: true }, ({ localizationEnabled }) => {
@@ -654,6 +675,12 @@
     const dancerOnNotFound = dancerNotFoundToggle.checked;
     chrome.storage.local.set({ dancerOnNotFound });
     relay({ dancerOnNotFound });
+  });
+
+  dancerForVideosToggle.addEventListener('change', () => {
+    const dancerForVideos = dancerForVideosToggle.checked;
+    chrome.storage.local.set({ dancerForVideos });
+    relay({ dancerForVideos });
   });
 
   

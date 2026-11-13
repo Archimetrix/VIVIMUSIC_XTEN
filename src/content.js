@@ -941,7 +941,7 @@
 
   function getAppleTargetImages() {
     return {
-      main: isMainPlayerPageActive() ? document.querySelector(APPLE_MAIN_IMG_SELECTOR) : null,
+      main: (isMainPlayerPageActive() || isFullscreenPlayerView()) ? document.querySelector(APPLE_MAIN_IMG_SELECTOR) : null,
       bar: document.querySelector(APPLE_BAR_IMG_SELECTOR),
     };
   }
@@ -1890,7 +1890,7 @@
 
   function injectAppleArtwork({ videoUrl, imageUrl }, attempt = 0, token = canvasRenderToken, trackKey = currentTrackKey) {
     if (token !== canvasRenderToken || trackKey !== currentTrackKey) return;
-    if (!appleCanvasEnabled || document.hidden || !isMainPlayerPageActive()) return;
+    if (!appleCanvasEnabled || document.hidden || !(isMainPlayerPageActive() || isFullscreenPlayerView())) return;
     if (isRealMusicVideo()) return;
 
     setBackgroundVar(imageUrl);
@@ -2089,6 +2089,15 @@
   // The dedicated Canvas player belongs only to the full player/watch page.
   // When YouTube Music is minimized or navigated back to Home, the global player
   // bar remains mounted, but the main player canvas must disappear completely.
+  // In YouTube Music's fullscreen the player reports player-ui-state=FULLSCREEN,
+  // which isMainPlayerPageActive() does not treat as "full player", so the
+  // Apple Music artwork overlay used to be dropped on entering fullscreen.
+  function isFullscreenPlayerView() {
+    const path = window.location.pathname || '';
+    if (path !== '/watch' && !path.startsWith('/watch/')) return false;
+    return !!document.querySelector('ytmusic-player-page[player-fullscreened]');
+  }
+
   function isMainPlayerPageActive() {
     const path = window.location.pathname || '';
     if (path !== '/watch' && !path.startsWith('/watch/')) return false;
@@ -2225,6 +2234,18 @@
 
   function applyPillPlayer(enabled) {
     document.documentElement.classList.toggle('vivi-pill-player', enabled !== false);
+  }
+
+  // "Full screen mode" (Appearance): reCover-style fullscreen layout, see
+  // fullscreen-mode.css / fullscreen-mode.js. Off by default.
+  function applyFullscreenMode(enabled) {
+    window.__viviFullscreenMode?.set(enabled === true);
+  }
+
+  // "Auto-hide player bar" (Appearance): fades the bar out in fullscreen and
+  // shows it when hovering the bottom edge. On by default.
+  function applyFullscreenAutoHide(enabled) {
+    window.__viviFullscreenMode?.setAutoHide(enabled !== false);
   }
 
   function applyPlayerTabIcons(enabled) {
@@ -3298,6 +3319,8 @@
     applyDiscStyle(discStyle);
     applyPlayerTabIcons(tabIcons);
     chrome.storage.local.get({ pillPlayerEnabled: true }, ({ pillPlayerEnabled }) => applyPillPlayer(pillPlayerEnabled));
+    applyFullscreenMode(true); // Full screen mode is always on
+    chrome.storage.local.get({ fullscreenAutoHideBar: true }, ({ fullscreenAutoHideBar }) => applyFullscreenAutoHide(fullscreenAutoHideBar));
     canvasPriority = canvasPrio === 'apple' ? 'apple' : 'spotify';
     sponsorUserEnabled = sbEnabled !== false;
     themeUserEnabled = themeEnabled;
@@ -3614,6 +3637,8 @@
       }
       if ('playerTabIcons' in msg) applyPlayerTabIcons(msg.playerTabIcons);
       if ('pillPlayerEnabled' in msg) applyPillPlayer(msg.pillPlayerEnabled);
+      if ('fullscreenModeEnabled' in msg) applyFullscreenMode(true); // locked on
+      if ('fullscreenAutoHideBar' in msg) applyFullscreenAutoHide(msg.fullscreenAutoHideBar);
       if ('layoutCompatEnabled' in msg) reCheckCanvas = true;
       if ('spotifyCanvasEnabled' in msg) {
         spotifyCanvasEnabled = msg.spotifyCanvasEnabled !== false && !discStyleEnabled;
