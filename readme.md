@@ -7,7 +7,7 @@
 **Apple Music–style Canvas artwork, Spotify Canvas, synced lyrics with romanization, a built-in equalizer, crossfade between songs, Discord Rpc, Last.fm scrobbling, Spotify → YouTube Music playlist transfer tool for YouTube Music and many more.**
 
 [![Manifest](https://img.shields.io/badge/Manifest-V3-ff6b6b?style=flat-square)](#)
-[![Version](https://img.shields.io/badge/Version-11.3.0-4ecdc4?style=flat-square)](#)
+[![Version](https://img.shields.io/badge/Version-11.4.0-4ecdc4?style=flat-square)](#)
 [![Browsers](https://img.shields.io/badge/Chrome%20%7CFirefox%20%7C%20All%20Firefox%20Based%20Browsers%20%7cAll%20Chromium%20Browsers-supported-6c5ce7?style=flat-square)](#)
 [![License](https://img.shields.io/badge/License-AGPL_v3-blue?style=flat-square)](LICENSE)
 </div>
@@ -28,7 +28,7 @@ This extension is **not published on the Chrome Web Store**. It's distributed as
 <div align="center">
 
 <a href="https://youtu.be/d4SHceAjRGk">
-  <img src="https://raw.githubusercontent.com/Archimetrix/storage-project-files/main/random-share/vivimusicdemo.gif" alt="ViviMusic Xten demo — click to watch the full video" width="720" />
+  <img src="https://raw.githubusercontent.com/Archimetrix/storage-project-files/main/random-share/vivimusicdemo.gif" alt="ViviMusic Xten demo — click to watch the full video" width="800" />
 </a>
 
 **Click the preview above to watch the full video** 
@@ -100,6 +100,8 @@ This extension is **not published on the Chrome Web Store**. It's distributed as
   - [Chrome / Brave / Vivaldi / Opera](#chrome--edge--brave--vivaldi--opera)
   - [Firefox](#firefox)
 - [Updating](#updating)
+  - [Smoother Updates Process (Beta)](#smoother-updates-process-beta)
+  - [Manual update](#manual-update)
 - [Settings](#settings)
 - [Spotify Canvas Login](#spotify-canvas-login)
 - [Spotify → YouTube Music Playlist Transfer](#spotify--youtube-music-playlist-transfer)
@@ -144,7 +146,7 @@ This extension is **not published on the Chrome Web Store**. It's distributed as
 - 💾 **Local Artwork Cache** — Previously fetched artwork/Canvas links are cached locally so repeat plays load instantly. View, search, preview, export, import and clear them from the popup.
 - ⌨️ **Cache Overlay Shortcut** — Press **Alt+C** on the YouTube Music tab to see the artwork cache and the current track's live cache status without opening the popup.
 - 🔋 **Optimized & Resource Saving Mode** — One switch on the popup's home screen that pauses the heaviest effects and background work: the fluid background and Apple Music artwork lookups, the equalizer and crossfade, SponsorBlock and the no-lyrics dancer, Last.fm scrobbling, and artwork fetching/caching. Your settings are kept and apply again when you switch it off.
-- 🔔 **Update Checker** — Since this isn't on the Web Store, the popup can check this GitHub repo's [Releases](../../releases) page and let you know when a newer version is out. It does not auto-install updates.
+- 🔔 **Update Checker & Smoother Updates Process (Beta)** — Since this isn't on the Web Store, the popup checks this GitHub repo's [Releases](../../releases) page and tells you when a newer version is out. With **Smoother Updates Process** (on by default) you can then install it with one click: no ZIP, no extracting, no re-loading by hand. See [Updating](#updating).
 
 
 ---
@@ -178,12 +180,43 @@ Firefox addon is currently available in official firefox addon store install the
 
 ## Updating
 
- To update ViviMusic Xten **For Chromium Builds Specially** :
+The popup checks this repository's [Releases](../../releases) automatically (twice a day), or on demand via **Check for updates**. When a newer version exists you'll see an **Update available** notice with an **Update now** button.
 
-1. Open the extension popup — if a newer version is available, you'll see an **"Update available"** notice (checked automatically twice a day, or manually via **Check for updates** in the popup).
-2. Download the latest release from the [Releases page](../../releases) (or pull the latest `main` branch).
-3. Extract it and again load unpack it then it will be updated .
-That's it — no need to remove and re-add the extension.
+### Smoother Updates Process (Beta)
+
+> **Beta.** From version (11.4.0+) This one-click updater is new. If anything goes wrong your previous files are restored automatically, and the manual method below always still works.
+
+Because the extension is loaded "unpacked", Chrome can't update it by itself. **Smoother Updates Process** (Popup → Updates panel, **on by default**) fills that gap: it replaces the extension's own files inside the folder you loaded it from, then reloads the extension.
+
+**First update only (about 30 seconds):**
+
+1. Click **Update now**. A setup tab opens.
+2. Open `chrome://extensions` → ViviMusic Xten → **Details** and note the folder path.
+3. Click **Choose folder & update**, pick that exact folder (the one containing `manifest.json`), and click **Allow / Edit files** when your browser asks.
+
+ViviMusic checks that it really is the folder your browser loaded; if you pick the wrong one it tells you and nothing is changed.
+
+**Every update after that:** click **Update now** in the popup. You'll see a progress bar with the current step (Check folder → Download → Verify → Unpack → Install), then the extension reloads on the new version. Refresh your YouTube Music tab afterwards.
+
+**What to expect:**
+
+- **Your settings are kept.** They live in your browser profile's extension storage, not in the extension folder, so replacing the files never touches them.
+- **Re-allow after a restart.** Browsers sometimes pause folder access after a restart. If so, the next update shows an **Allow access & update** button, one extra click. If your browser offers **Allow on every visit**, choose it.
+- **Safe by design.** The update is downloaded from this project's GitHub release, checked against its SHA-256 checksum when the release publishes one, confirmed to be this same extension and a newer version, fully unpacked in memory, and only then written to disk with `manifest.json` last. If any step fails, the files are rolled back to the previous version.
+- **Only your extension folder is touched.** ViviMusic can only write inside the one folder you chose. You can disconnect it any time from the setup tab (Popup → Updates → **Manage**).
+- **Wrong or moved folder?** If you move or rename the extension folder, reload it once via **Load unpacked** and run the setup again.
+
+**Browser support:** Chrome, Edge, Opera, Vivaldi and other Chromium browsers work out of the box. **Brave** ships with the needed feature switched off: open `brave://flags/#file-system-access-api`, set it to **Enabled**, relaunch Brave, then try again. Firefox isn't affected (it uses the Add-ons store), and Safari isn't supported. On a browser where the feature isn't available, the popup automatically falls back to the manual method.
+
+### Manual update
+
+If you'd rather not use the one-click updater, switch **Smoother Updates Process** off in the Updates panel (or use this if your browser doesn't support it):
+
+1. Click **Download update** in the popup (or grab the latest ZIP from the [Releases page](../../releases)).
+2. Extract it over your existing folder, or to a new one.
+3. Open `chrome://extensions` and click **Load unpacked** (or the reload icon if you replaced the files in place).
+
+No need to remove and re-add the extension; your settings are kept.
 
 ---
 
@@ -229,6 +262,7 @@ All settings live in the extension popup (click the ViviMusic Xten icon in your 
 | **Scrobble delay (min)** | Or once this many minutes have played — whichever threshold is reached first. |
 | **Artwork Cache** | Shows how many songs are cached locally, with search, preview, **Export**, **Import** and a one-click **Clear all**. |
 | **Check for updates** | Manually checks this repo's latest release against your installed version. |
+| **Smoother Updates Process (Beta)** | One-click, in-place updates (on by default). Shows whether your extension folder is connected, with **Set up / Re-allow / Manage** to connect, re-allow or disconnect it. Turn it off to use the manual download flow. |
 | **Optimized & resource saving mode** | Pauses heavy effects and background activity (see the feature description above). Settings are kept. |
 | **Updates (refresh icon)** | Opens the Updates panel. A red 1 appears on it when a newer release exists. |
 | **Notification bell** | Opens developer announcements. |
@@ -452,9 +486,11 @@ ViviMusic Xten's content scripts only run on `music.youtube.com`. Everything els
 | `code.thetadev.de` | Community-maintained Spotify web-player secrets ([ThetaDev/spotify-secrets](https://code.thetadev.de/ThetaDev/spotify-secrets)) needed to obtain a Spotify web-player session. |
 | `sponsor.ajay.app` | SponsorBlock's API — used only if SponsorBlock is enabled, to fetch skip segments for the currently playing video. |
 | `translate.googleapis.com` | Optional romanization lookups for scripts that can't be converted on-device. Used only for languages you tick, and only the lyric text is sent. |
-| `api.github.com`, `github.com`, `raw.githubusercontent.com`, `avatars.githubusercontent.com` | Update check (read-only release lookup), developer announcements (a read-only JSON file in this project's repository), and [star verification](#star-verification) (GitHub's device flow, your token, and your avatar on the verification screen). |
+| `api.github.com`, `github.com`, `codeload.github.com`, `objects.githubusercontent.com`, `release-assets.githubusercontent.com`, `raw.githubusercontent.com`, `avatars.githubusercontent.com` | Update check (read-only release lookup), downloading the release ZIP when you press **Update now** (including the redirect hosts GitHub serves release files from), developer announcements (a read-only JSON file in this project's repository), and [star verification](#star-verification) (GitHub's device flow, your token, and your avatar on the verification screen). |
 | `discord.com` (`/api/*`, `/oauth2/*`) | Discord Rich Presence: sign-in, and sending your current song as your activity. Used only if you connect Discord. Your Discord token stays in your browser. |
 | `ws.audioscrobbler.com` | Last.fm's API — used only if you enable and log in to Last.fm scrobbling. Sends the current artist/track (and your login once, to establish a session) directly to Last.fm. |
+
+**Folder access (Smoother Updates Process):** if you use it, your browser's folder-access feature lets the extension write to the single folder you picked, and only after you approve the browser's prompt. The folder handle is stored locally in the extension's own browser storage; you can disconnect it at any time. It is not a manifest permission and nothing outside that folder is accessible.
 
 Nothing is sent to a ViviMusic Xten-owned server. The extension communicates directly with the external services needed by the enabled features: Spotify, YouTube Music, Apple Music and Deezer, the lyrics providers, GitHub (updates, announcements and star verification), SponsorBlock if enabled, Google Translate if you enable romanization lookups, and Last.fm if you opt in to scrobbling. For the Spotify → YouTube Music transfer, Spotify playlist data is read locally by the extension and YouTube Music receives the search/playlist-update requests needed to perform the transfer. No analytics and no tracking.
 
@@ -470,6 +506,18 @@ You selected the wrong folder — make sure you pick the folder that directly co
 
 **Extension disappeared / shows an error icon after a browser restart.**
 The folder you extracted the extension to was moved, renamed, or deleted. Re-extract it somewhere permanent and reload it via `chrome://extensions`.
+
+**Update now says "showDirectoryPicker is not defined" / "Not available in this browser setting".**
+Your browser has the File System Access API switched off. In Brave, open `brave://flags/#file-system-access-api`, set it to **Enabled** and relaunch. Otherwise use the [manual update](#manual-update).
+
+**"That isn't the folder Chrome loaded ViviMusic from."**
+Pick the folder shown under `chrome://extensions` → ViviMusic Xten → **Details**, the one that directly contains `manifest.json` (not its parent or the `src` subfolder).
+
+**Update asks to "Allow access" again.**
+Normal after a browser restart. Click it once; choose **Allow on every visit** if your browser offers it.
+
+**An update failed.**
+The message says why (download, checksum, or write error). Your previous version is restored automatically. Try again, or use the [manual update](#manual-update).
 
 **Spotify → YouTube Music says Spotify is not connected.**
 Open Spotify and make sure you are fully signed in. Then return to the transfer page and click **Refresh**. Vivimusic uses the existing Spotify Web Player session rather than a separate Spotify developer login.
