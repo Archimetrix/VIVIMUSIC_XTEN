@@ -287,3 +287,17 @@ html.vivi-fs-mode:not(.vivi-pill-player) #layout[player-fullscreened] ytmusic-pl
   -webkit-backdrop-filter: blur(var(--ui-blur, 10px)) !important;
   backdrop-filter: blur(var(--ui-blur, 10px)) !important;
 }
+
+
+/* ---- Player bar auto-hide: new-layout miniplayer ----
+   Same behaviour as the classic bar above (fullscreen-mode.js treats
+   <ytmusic-miniplayer> as the bar when there is no <ytmusic-player-bar>). */
+html.vivi-fs-autohide ytmusic-miniplayer:not([hidden]) {
+  transition: opacity 0.25s ease, visibility 0s linear 0s !important;
+}
+html.vivi-fs-autohide:not(.vivi-fs-bar-show) ytmusic-miniplayer:not([hidden]):not(:hover) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s !important;
+}

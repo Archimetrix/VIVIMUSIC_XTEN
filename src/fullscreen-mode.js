@@ -36,7 +36,8 @@
     document.documentElement.classList.toggle(name, on);
   }
   const getPage = () => document.querySelector('ytmusic-player-page');
-  const getBar = () => document.querySelector('ytmusic-player-bar');
+  const BAR_SEL = 'ytmusic-player-bar, ytmusic-miniplayer';
+  const getBar = () => document.querySelector('ytmusic-player-bar') || document.querySelector('ytmusic-miniplayer');
   const isFullscreened = (page) => !!page && page.hasAttribute('player-fullscreened');
 
   /* ───────────── Always on: pill seek bar vs. thumbnail ───────────── */
@@ -164,7 +165,7 @@
 
   document.addEventListener('mousedown', (e) => {
     if (!root.classList.contains(AUTO_CLASS)) return;
-    if (e.target instanceof Element && e.target.closest('ytmusic-player-bar')) {
+    if (e.target instanceof Element && e.target.closest(BAR_SEL)) {
       barDragging = true;
       holdBar();
     }
@@ -179,10 +180,10 @@
 
   document.addEventListener('focusin', (e) => {
     if (!root.classList.contains(AUTO_CLASS) || !(e.target instanceof Element)) return;
-    if (e.target.closest('ytmusic-player-bar') && Date.now() - lastKeyTs < 3000) holdBar();
+    if (e.target.closest(BAR_SEL) && Date.now() - lastKeyTs < 3000) holdBar();
   });
   document.addEventListener('focusout', (e) => {
-    if (root.classList.contains(AUTO_CLASS) && e.target instanceof Element && e.target.closest('ytmusic-player-bar')) releaseBar(1200);
+    if (root.classList.contains(AUTO_CLASS) && e.target instanceof Element && e.target.closest(BAR_SEL)) releaseBar(1200);
   });
 
   /* ───────────── Always on: no Home flash when leaving fullscreen ─────────────

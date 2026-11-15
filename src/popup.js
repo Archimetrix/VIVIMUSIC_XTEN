@@ -541,8 +541,8 @@
   // Layout compatibility toggle
   {
     const layoutCompatToggle = document.getElementById('layoutCompatToggle');
-    chrome.storage.local.get({ layoutCompatEnabled: false }, ({ layoutCompatEnabled }) => {
-      layoutCompatToggle.checked = layoutCompatEnabled === true;
+    chrome.storage.local.get({ layoutCompatEnabled: true }, ({ layoutCompatEnabled }) => {
+      layoutCompatToggle.checked = layoutCompatEnabled !== false;
     });
     layoutCompatToggle.addEventListener('change', () => {
       const layoutCompatEnabled = layoutCompatToggle.checked;

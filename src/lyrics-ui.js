@@ -413,7 +413,7 @@
       if (t.closest('.vivi-lyrics-line')) return; // the line's own handler runs
       if (t.closest(
         'button, a, input, textarea, select, [role="button"], yt-icon-button, tp-yt-paper-icon-button, ' +
-        'tp-yt-paper-item, tp-yt-paper-tab, yt-tab-shape, tp-yt-paper-slider, ytmusic-player-bar, #player-bar-background, ' +
+        'tp-yt-paper-item, tp-yt-paper-tab, yt-tab-shape, tp-yt-paper-slider, ytmusic-player-bar, ytmusic-miniplayer, #player-bar-background, ' +
         'ytmusic-popup-container, tp-yt-iron-dropdown, tp-yt-paper-dialog, ytmusic-menu-popup-renderer, ' +
         '#vivi-lyrics-offset-panel, .vivi-lyrics-info-wrap, .av'
       )) return;

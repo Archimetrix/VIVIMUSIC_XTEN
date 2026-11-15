@@ -1072,6 +1072,18 @@ html.vivi-disc-style.vivi-disc-full-player ytmusic-player .player-minimize-butto
   display: none !important;
 }
 
+/* The vinyl replaces the artwork, so YouTube's "Full screen" button floating
+   over it looks wrong. Hide it while the vinyl is on (double-click still works,
+   and while fullscreen the exit control is left alone). */
+html.vivi-disc-style.vivi-disc-full-player ytmusic-app-layout:not([player-fullscreened]) ytmusic-player :is(
+  [class*="ullscreen-button" i], [class*="ullscreenButton" i],
+  button[aria-label*="ull screen" i], button[aria-label*="ullscreen" i],
+  yt-icon-button[aria-label*="ull screen" i], yt-icon-button[aria-label*="ullscreen" i],
+  tp-yt-paper-icon-button[aria-label*="ull screen" i], [role="button"][aria-label*="ull screen" i]
+) {
+  display: none !important;
+}
+
 html.vivi-disc-style.vivi-disc-full-player ytmusic-player #song-media-window::before,
 html.vivi-disc-style.vivi-disc-full-player ytmusic-player #song-media-window::after {
   content: none !important;
